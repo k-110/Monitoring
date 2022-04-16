@@ -1,0 +1,30 @@
+{
+  "history": {
+    "html": "./History.html",
+    "keyword": "<!-- OperatingHistoryList -->"
+  },
+  "model": "MyModel.h5",
+  "category": [
+    "Operating",
+    "Passing",
+    "Unmanned"
+  ],
+  "teaching": [
+    {
+      "ans": 0,
+      "dir": "./img/teaching/0"
+    },
+    {
+      "ans": 1,
+      "dir": "./img/teaching/1"
+    },
+    {
+      "ans": 2,
+      "dir": "./img/teaching/2"
+    }
+  ],
+  "creation": {
+    "dir": "../../Monitoring/bin/Release/img",
+    "backup": "./img/backup"
+  }
+}
