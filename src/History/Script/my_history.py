@@ -2,6 +2,7 @@
 # my_history
 #-----------------------
 import os
+import datetime
 import shutil
 import Lib.my_json as my_json
 import Lib.my_text as my_text
@@ -28,7 +29,10 @@ def make_history(result):
                 operating.append(new_record)
             else:
                 operating[record_index]['img'].append(text_imgdir + file_name)
-        shutil.move(result['File'][index], config['creation']['backup'] + '/')
+        bkdir = config['creation']['backup'] + '/' + result['Category'][index] + '/' + datetime.date.today().strftime('%Y%m%d') + '/'
+        if not os.path.exists(bkdir):
+            os.makedirs(bkdir)
+        shutil.move(result['File'][index], bkdir)
 
     text_to_insert = ''
     for record in operating:

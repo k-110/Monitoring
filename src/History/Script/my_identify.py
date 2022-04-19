@@ -41,6 +41,7 @@ class my_identify:
         }
         for info in self.config['teaching']:
             files = glob.glob(info['dir'] + '/*.webp', recursive=False)
+            files.extend(glob.glob(info['dir'] + '/**/*.webp', recursive=False))
             for file in files:
                 # 画像データを読み込んで加工
                 img = self.shape_image(file)
@@ -76,7 +77,8 @@ class my_identify:
             tf.keras.layers.Flatten(),
             # レイヤー6
             tf.keras.layers.Dense(
-                3,                          # 出力は値が各項目に属する確率、3項目への分類のため要素数3
+                len(self.config['category']),
+                                            # 出力は値が各項目に属する確率、分類項目数を設定する
                 activation='softmax'        # 活性化関数
             )
         ])
@@ -96,7 +98,7 @@ class my_identify:
         #-----------------------
         # モデルの訓練
         x_train = np.array(TeachingData['Image']).reshape(len(TeachingData['Image']), self.image_width, self.image_height, self.image_color)
-        y_train = np_utils.to_categorical(TeachingData['Type'], 3)
+        y_train = np_utils.to_categorical(TeachingData['Type'], len(self.config['category']))
         x_train = x_train / 255.0       # 正規化(色の値を0.0～1.0の範囲に調整)した方が精度があがるらしい
         print('x_train : x_train.shape', x_train.shape)
         print('y_train : y_train.shape', y_train.shape)
@@ -162,7 +164,8 @@ class my_identify:
             'Category':[]   # → 分類名
         }
         IdentifyData = []
-        files = glob.glob(self.config['creation']['dir'] + '/**/*.webp', recursive=False)
+        files = glob.glob(self.config['creation']['dir'] + '/*.webp', recursive=False)
+        files.extend(glob.glob(self.config['creation']['dir'] + '/**/*.webp', recursive=False))
         IdentifyResult['File'].extend(files)
         for file in files:
             # 画像データを読み込んで加工
